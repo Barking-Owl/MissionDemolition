@@ -3,7 +3,7 @@
  * Date created: Feb 9, 2022
  * 
  * Last Edited by: Andrew Nguyen
- * Last Edited: Feb 9, 2022
+ * Last Edited: Feb 14, 2022
  * 
  * Description: Controller for the Slingshot
  * 
@@ -97,6 +97,9 @@ public class Slingshot : MonoBehaviour
             aimingMode = false;
             projectileRB.isKinematic = false;
             projectileRB.velocity = -mouseDelta * velocityMultiplier;
+
+            FollowCam.POI = projectile; //Set POI for Camera 
+
             projectile = null; //Doesn't delete the projectile instance but just to not remember it. Had a problem with getting the projectile to not drop.
             //Solution was that the sphere collider was not a trigger so I set it accordingly.
         } //end if
