@@ -3,7 +3,7 @@
  * Date created: Feb 14, 2022
  * 
  * Last Edited by: Andrew Nguyen
- * Last Edited: Feb 14, 2022
+ * Last Edited: Feb 15, 2022
  * 
  * Description: Cloud generation
  * 
@@ -49,12 +49,24 @@ public class Cloud : MonoBehaviour
             offset.x *= sphereOffsetScale.x;
             offset.y *= sphereOffsetScale.y;
             offset.z *= sphereOffsetScale.z;
+
+            //Randomly assign the scale
+            Vector3 scale = Vector3.one;
+            scale.x = Random.Range(sphereScaleRangeX.x, sphereScaleRangeX.y);
+            scale.y = Random.Range(sphereScaleRangeY.x, sphereScaleRangeY.y);
+            scale.z = Random.Range(sphereScaleRangeZ.x, sphereScaleRangeZ.y);
+
+            //Adjust the y-scale by x-distance
+            scale.y *= 1 - (Mathf.Abs(offset.x) / sphereOffsetScale.x);
+            scale.y = Mathf.Max(scale.y, scaleYMin);
+
+            spTrans.localScale = scale;
         } //end for loop
-    }
+    } //end Start()
 
     // Update is called once per frame
     void Update()
     {
-        
-    }
+
+    } //end Update()
 }
