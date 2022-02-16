@@ -71,6 +71,18 @@ public class CloudCrafter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //Iterate over generated clouds
+        foreach (GameObject cloud in cloudInstances) {
+            float scaleVal = cloud.transform.localScale.x;
+            Vector3 cPos = cloud.transform.position;
+            //Larger clouds go faster
+            cPos.x -= scaleVal * Time.deltaTime * cloudSpeedMult;
+            //Cloud that goes too far left should go to the far right
+            if (cPos.x <= cloudPosMin.x) {
+                cPos.x = cloudPosMax.x;
+            } //end if
+            //Apply new position to cloud
+            cloud.transform.position = cPos;
+        }//end foreach
     }
 }
