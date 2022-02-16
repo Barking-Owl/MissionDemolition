@@ -3,7 +3,7 @@
  * Date created: Feb 14, 2022
  * 
  * Last Edited by: Andrew Nguyen
- * Last Edited: Feb 14, 2022
+ * Last Edited: Feb 16, 2022
  * 
  * Description: Let the projectile be tracked by the camera
  * 
@@ -44,10 +44,27 @@ public class FollowCam : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate() //Ensure Camera's framerate is constant despite projectile's variable speed (which uses "Update")
     {
-        if (POI == null) return; //Do nothing if there's no POI
+        //if (POI == null) return; //Do nothing if there's no POI
 
-        Vector3 destination = POI.transform.position;
+        //Vector3 destination = POI.transform.position; //Get position of POI
+        Vector3 destination;
+        if (POI == null)
+        {
+            destination = Vector3.zero;
+        } //end if
+        else
+        {
+            destination = POI.transform.position;
+            if (POI.tag == "Projectile")
+            {
+                if (POI.GetComponent<Rigidbody>().IsSleeping())
+                {
+                    POI = null; //Null POI if RigidBody is asleep
+                } //end if (POI.GetComponent<Rigidbody>().IsSleeping())
+            } //end if (POI.tag == "Projectile")
+        } //end else
 
+        //Limit camera view
         destination.x = Mathf.Max(minXY.x, destination.x); //Choose a value between these 2 
         destination.y = Mathf.Max(minXY.y, destination.y);
 
