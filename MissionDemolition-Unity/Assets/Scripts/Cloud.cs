@@ -49,6 +49,7 @@ public class Cloud : MonoBehaviour
             offset.x *= sphereOffsetScale.x;
             offset.y *= sphereOffsetScale.y;
             offset.z *= sphereOffsetScale.z;
+            spTrans.localPosition = offset;
 
             //Randomly assign the scale
             Vector3 scale = Vector3.one;
