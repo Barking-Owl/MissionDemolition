@@ -3,7 +3,7 @@
  * Date created: Feb 9, 2022
  * 
  * Last Edited by: Andrew Nguyen
- * Last Edited: Feb 14, 2022
+ * Last Edited: Feb 20, 2022
  * 
  * Description: Controller for the Slingshot
  * 
@@ -16,6 +16,7 @@ using UnityEngine;
 
 public class Slingshot : MonoBehaviour
 {
+    static private Slingshot S;
     //VARIABLES
     [Header("SET IN INSPECTOR")]
     public GameObject prefabProjectile;
@@ -28,8 +29,19 @@ public class Slingshot : MonoBehaviour
     public bool aimingMode; //is player aiming or not
     public Rigidbody projectileRB; //Rigid body of projectile
 
+    //Launch position for the ProjectileLine.CS script
+    static public Vector3 LAUNCH_POS
+    {
+        get
+        {
+            if (S == null) return Vector3.zero;
+            return S.launchPos;
+        }
+    }
+
     private void Awake()
     {
+        S = this;
         Transform launchPointTrans = transform.Find("LaunchPoint"); //Find child object
         launchPoint = launchPointTrans.gameObject; //The game object
         launchPoint.SetActive(false); //disable game object
@@ -102,7 +114,11 @@ public class Slingshot : MonoBehaviour
 
             projectile = null; //Doesn't delete the projectile instance but just to not remember it. Had a problem with getting the projectile to not drop.
             //Solution was that the sphere collider was not a trigger so I set it accordingly.
+
+            MissionDemolition.ShotFired();
+            ProjectileLine.S.poi = projectile;
         } //end if
+
     } //end Update()
 
 } //End Slingshot
